@@ -1,5 +1,5 @@
 #### 一个能够让你快速构建AngularJS项目的轻量级脚手架。
-目前市面上已经存在众多脚手架，包括：`vue-cli`、`create-react-app`、`angular-cli`等，但大多数脚手架均针对单页应用。面对多页应用，用户需要手写 `webpack.config.js`，手动创建每个页面的入口文件、`index.html`并配置到`entry`中。。
+目前市面上已经存在众多脚手架，包括：`vue-cli`、`create-react-app`、`angular-cli`等，但大多数脚手架均针对单页应用。面对多页应用，用户需要手写 `webpack.config.js`，手动创建每个页面的入口文件、`index.html`并配置到`entry`中，可以说配置比较繁琐。
 #### 使用angular-m-cli，您可以做到
 * 快速构建项目原型
 * 自动生成新页面并完成相关配置（包括入口文件、css、`index.html`）
@@ -128,11 +128,11 @@ angular.module('home', [])
 │   ├── home
 │   │   ├── index.html
 │   └── user
-│   │   ├── index.html
+│       ├── index.html
 └── common
 ```
 
-#### 3. 开发环境
+##### 3. 开发环境
 目前，我们已经可以创建新的项目，添加新的页面并成功将项目运行在本地，也就是开发环境。你需要知道开发环境下angular-m-cli可以做哪些事情：
 * 使用es6书写ng
 * 编写sass
@@ -142,6 +142,79 @@ angular.module('home', [])
 * 错误映射
 * 使用mock服务测试接口
 
-#### 4. 生产环境
-在命令行中输入`npm run build`
+##### 4. 生产环境
+在命令行中输入`npm run build`，构建成功后我们可以看到`entry`文件夹发生了变化：
+```
+├── entry
+│   ├── home
+│   │   ├── main.js
+│   │   ├── main.bundle.js //打包后的home所需js
+│   │   └── main.bundle.css //打包后的home所需css
+│   ├── user
+│   │   ├── main.js 
+│   │   ├── main.bundle.js //打包后的user所需js
+│   │   └── main.bundle.css //打包后的user所需css
+│   └── vender.bundle.js //打包后的通用js
+```
 
+下一步，你并不需要手动将打包后的文件引入到html中，因为这个工作已经由angular-m-cli自动帮你完成，你只需要将每个页面的
+```
+<script type="text/javascript" src="/vendor.__bundle.js"></script>
+<script type="text/javascript" src="/pageName/main.__bundle.js">
+```
+删除即可。
+
+`pageName`为你的页面名
+
+现在，你可以将`entry`、`pages`、`image`这三个文件夹存放至服务器了。
+
+![](http://upload-images.jianshu.io/upload_images/1495096-f80bdfd8ce2955ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+##### 5. 其他指令
+* 列举页面：`ng list`
+* 删除页面及其配置项：`ng delete <pageName>`
+
+##### 6. 自定义配置（webpack.config.js）
+1. 指定通用模块
+
+通用模块在开发环境下会生成到虚拟内存中：`/vender.__bundle.js`，在生产环境下会生成到`entry/vender.bundle.js`中。
+
+```
+//默认的通用模块
+var commonModule1 = path.resolve(__dirname, customConfig.jsCommonDir + '/app');
+//添加新的通用模块
+var commonModule2 = path.resolve(__dirname, customConfig.jsCommonDir + '/myModule');
+
+var entry = {
+    vendor: [commonModule1, commonModule2]
+};
+```
+通过以上配置，`common/app.js`和`common/myModule.js`均会被打包至vender中。
+
+2. 开发环境下修改自动打开的页面
+```
+var customConfig = {
+    htmlDir: 'pages',
+    htmlEntry: 'index.html',
+    jsDir: 'entry',
+    jsCommonDir: 'common',
+    jsEntry: 'main.js',
+    serverEntryDir: 'home', //将其修改为user即可自动打开user页面
+    devServerPort: 3000
+};
+```
+
+##### 6. 生产环境转换成开发环境
+
+删除`<link href="../../entry/pageName/main.bundle.css" rel="stylesheet"/>`
+将
+```
+<script type="text/javascript" src="../../entry/vendor.bundle.js"></script>
+<script type="text/javascript" src="../../entry/pageName/main.bundle.js"></script>
+```
+替换为
+```
+<script type="text/javascript" src="/vendor.bundle.js"></script>
+<script type="text/javascript" src="/pageName/main.bundle.js">
+```
+`pageName`为你的页面名
