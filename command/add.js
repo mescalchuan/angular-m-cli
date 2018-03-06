@@ -7,29 +7,29 @@ const ora = require('ora');
 const utils = require('../config/utils');
 
 module.exports = (pageName) => {
- 	co(function*() {
- 		//读取模板文件
- 		const mainEJS = fs.readFileSync(path.resolve(__dirname, '../template/main.ejs'), 'utf-8');
- 		const indexEJS = fs.readFileSync(path.resolve(__dirname, '../template/index.ejs'), 'utf-8');
- 		const scssFile = fs.readFileSync(path.resolve(__dirname, '../template/index.scss'), 'utf-8');
- 		//参数获取新建container名字并转换成驼峰
- 		const containerName = utils.toHump(pageName);
-	    //文件路径
-	    const destinationEntry = `./entry/${containerName}`;
- 		const destinationEntryJS =  `./entry/${containerName}/main.js`;
- 		const destinationPage = `./pages/${containerName}`;
- 		const destinationPageHTML = `./pages/${containerName}/index.html`;
- 		const destinationScssDir = './css';
- 		const destinationScss = `./css/${containerName}.scss`;
- 		//渲染模板文件
-	    const controllerName = containerName + 'Ctrl';
-	    const directiveName = containerName + 'Dir';
- 		const mainResult = ejs.render(mainEJS, {pageName: containerName, controllerName, directiveName});
- 		const indexResult = ejs.render(indexEJS, {pageName: containerName, controllerName});
+    co(function*() {
+		//读取模板文件
+		const mainEJS = fs.readFileSync(path.resolve(__dirname, '../template/main.ejs'), 'utf-8');
+		const indexEJS = fs.readFileSync(path.resolve(__dirname, '../template/index.ejs'), 'utf-8');
+		const scssFile = fs.readFileSync(path.resolve(__dirname, '../template/index.scss'), 'utf-8');
+		//参数获取新建container名字并转换成驼峰
+		const containerName = utils.toHump(pageName);
+		//文件路径
+		const destinationEntry = `./entry/${containerName}`;
+		const destinationEntryJS =  `./entry/${containerName}/main.js`;
+		const destinationPage = `./pages/${containerName}`;
+		const destinationPageHTML = `./pages/${containerName}/index.html`;
+		const destinationScssDir = './css';
+		const destinationScss = `./css/${containerName}.scss`;
+		//渲染模板文件
+		const controllerName = containerName + 'Ctrl';
+		const directiveName = containerName + 'Dir';
+		const mainResult = ejs.render(mainEJS, {pageName: containerName, controllerName, directiveName});
+		const indexResult = ejs.render(indexEJS, {pageName: containerName, controllerName});
 
-	    const entryPathExist = fs.existsSync(destinationEntry);
-	    const pagePathExist = fs.existsSync(destinationPage);
-	    const scssPathExist = fs.existsSync(destinationScssDir);
+		const entryPathExist = fs.existsSync(destinationEntry);
+		const pagePathExist = fs.existsSync(destinationPage);
+		const scssPathExist = fs.existsSync(destinationScssDir);
 		if(entryPathExist) {
 			console.log(chalk.red('\n The project has the same container, see your entry folder.'));
 			process.exit();
@@ -56,7 +56,7 @@ module.exports = (pageName) => {
 			process.exit();
 		}
 		spinner.stop();
-        console.log(chalk.green('\n Create succeed!'));
-        process.exit();
- 	})
+		console.log(chalk.green('\n Create succeed!'));
+		process.exit();
+	})
 }
