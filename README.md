@@ -44,7 +44,7 @@ npm link
 
 完成依赖安装后，我们就可以使用`npm start`启动项目啦
 
-![angular-m-cli](http://upload-images.jianshu.io/upload_images/1495096-bb4e61b121dfd594.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![angular-m-cli](http://ox6gixp8f.bkt.clouddn.com/ng-cli.png)
 
 访问3005端口即可进入`mock`服务的配置页面
 
