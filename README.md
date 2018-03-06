@@ -1,4 +1,3 @@
-#### 一个能够让你快速构建AngularJS项目的轻量级脚手架。
 目前市面上已经存在众多脚手架，包括：`vue-cli`、`create-react-app`、`angular-cli`等，但大多数脚手架均针对单页应用。面对多页应用，用户需要手写 `webpack.config.js`，手动创建每个页面的入口文件、`index.html`并配置到`entry`中，可以说配置比较繁琐。
 #### 使用angular-m-cli，您可以做到
 * 快速构建项目原型
@@ -45,7 +44,7 @@ npm link
 
 完成依赖安装后，我们就可以使用`npm start`启动项目啦
 
-![](http://ox6gixp8f.bkt.clouddn.com/ng-cli.png)
+![angular-m-cli](http://upload-images.jianshu.io/upload_images/1495096-bb4e61b121dfd594.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 访问3005端口即可进入`mock`服务的配置页面
 
@@ -66,20 +65,20 @@ import {homeInstruction} from '../../common/app';
 import '../../css/home.scss';
 
 const homeCtrl = $scope => {
-	$scope.pageInfo = "Hello Angular";
-	console.log(homeInstruction);
+    $scope.pageInfo = "Hello Angular";
+    console.log(homeInstruction);
 }
 const helloNG = () => ({
-	restrict:'EACM',
-	template:`<p class="home-title" >{{pageInfo}}</p>`
+    restrict:'EACM',
+    template:`<p class="home-title" >{{pageInfo}}</p>`
 })
 
 angular.module('home', [])
-	.controller('homeCtrl',['$scope', 
-		$scope => homeCtrl($scope)
-	])
-	.directive('helloNg', helloNG)
-	.directive('ngText', homeInstruction);
+    .controller('homeCtrl',['$scope', 
+        $scope => homeCtrl($scope)
+    ])
+    .directive('helloNg', helloNG)
+    .directive('ngText', homeInstruction);
 ```
 使用es6去书写ng代码，能够大幅提高代码可读性和组织性
 * `image`存放项目图片
@@ -90,17 +89,17 @@ angular.module('home', [])
 <!DOCTYPE html>
 <html ng-app="home">
 <head>
-	<title></title>
+    <title>Home</title>
 </head>
 <body ng-controller="homeCtrl" ng-cloak>
-	<div class="container" >
-		<img src="../../image/angular.jpg" />
-	</div>
-	<hello-ng></hello-ng>
-	<ng-text></ng-text>
-	<script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
-	<script type="text/javascript" src="/vendor.__bundle.js"></script>
-	<script type="text/javascript" src="/home/main.__bundle.js"></script>
+    <div class="container" >
+        <img src="../../image/angular.jpg" />
+    </div>
+    <hello-ng></hello-ng>
+    <ng-text></ng-text>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <script type="text/javascript" src="/vendor.__bundle.js"></script>
+    <script type="text/javascript" src="/home/main.__bundle.js"></script>
 </body>
 </html>
 ```
@@ -143,21 +142,21 @@ angular.module('home', [])
 * 使用mock服务测试接口
 
 ##### 4. 生产环境
-在命令行中输入`npm run build`，构建成功后我们可以看到`entry`文件夹发生了变化：
+在命令行中输入`npm run build`，构建成功后我们可以看到目录中新产生了一个`build`文件夹：
 ```
-├── entry
+├── build
 │   ├── home
-│   │   ├── main.js
+│   │   ├── index.html
 │   │   ├── main.bundle.js //打包后的home所需js
 │   │   └── main.bundle.css //打包后的home所需css
 │   ├── user
-│   │   ├── main.js 
+│   │   ├── index.html 
 │   │   ├── main.bundle.js //打包后的user所需js
 │   │   └── main.bundle.css //打包后的user所需css
 │   └── vender.bundle.js //打包后的通用js
 ```
 
-下一步，你并不需要手动将打包后的文件引入到html中，因为这个工作已经由angular-m-cli自动帮你完成，你只需要将每个页面的
+下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，你只需要将每个页面的
 ```
 <script type="text/javascript" src="/vendor.__bundle.js"></script>
 <script type="text/javascript" src="/pageName/main.__bundle.js">
@@ -166,7 +165,7 @@ angular.module('home', [])
 
 `pageName`为你的页面名
 
-现在，你可以将`entry`、`pages`、`image`这三个文件夹存放至服务器了。
+现在，你可以将`build`、`image`这两个文件夹存放至服务器了（如果你没有其他外部引入的资源）。
 
 ![](http://upload-images.jianshu.io/upload_images/1495096-f80bdfd8ce2955ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
@@ -205,16 +204,9 @@ var customConfig = {
 ```
 
 ##### 6. 生产环境转换成开发环境
+直接运行`npm start`即可。
 
-删除`<link href="../../entry/pageName/main.bundle.css" rel="stylesheet"/>`
-将
-```
-<script type="text/javascript" src="../../entry/vendor.bundle.js"></script>
-<script type="text/javascript" src="../../entry/pageName/main.bundle.js"></script>
-```
-替换为
-```
-<script type="text/javascript" src="/vendor.bundle.js"></script>
-<script type="text/javascript" src="/pageName/main.bundle.js">
-```
-`pageName`为你的页面名
+在生产环境中，你需要访问的是`build`文件夹。而在开发环境中，你需要访问的是`pages`和`entry`文件夹，二者不互相干扰。
+
+访问[github](https://github.com/1335382915/angular-m-cli)查看源码
+参考：[vue-cli](https://github.com/vuejs/vue-cli)、[教你从零开始搭建一款前端脚手架工具](https://segmentfault.com/a/1190000006190814)
