@@ -167,7 +167,7 @@ angular.module('home', [])
 
 现在，你可以将`build`、`image`这两个文件夹存放至服务器了（如果你没有其他外部引入的资源）。
 
-![](http://upload-images.jianshu.io/upload_images/1495096-f80bdfd8ce2955ee.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](http://upload-images.jianshu.io/upload_images/1495096-3d572613e6e6c3b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 ##### 5. 其他指令
 * 列举页面：`ng list`
