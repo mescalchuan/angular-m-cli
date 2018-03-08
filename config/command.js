@@ -1,5 +1,5 @@
 module.exports = {
-	init: 'init',
+    init: 'init',
     add: 'add',
     delete: 'delete',
     list: 'list',
