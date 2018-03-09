@@ -1,14 +1,25 @@
-import angular from "angular";
-import "../../css/<%= pageName %>.scss";
+import angular from 'angular';
+import { instruction } from '../../common/app';
+import '../../css/<%= pageName %>.scss';
+
 const <%= controllerName %> = $scope => {
-    $scope.pageInfo = "This is <%= pageName %> page.";
+    $scope.pageInfo = 'This is <%= pageName %> page.';
 }
 const <%= directiveName %> = () => ({
-    restrict:'EACM',
-    template:`<p>{{pageInfo}}</p>`
-})
-angular.module("<%= pageName %>",[])
-    .controller("<%= controllerName %>", ["$scope",
-	$scope => <%= controllerName %>($scope)
+    restrict: 'EACM',
+    transclude: true,
+	template: `
+		<div class="content">
+			<p class="page-title">{{pageInfo}}</p>
+			<a class="back-content" href="../home/index.html">Go Back</a>
+			<div ng-transclude></div>
+		</div>
+	`
+});
+
+angular.module('<%= pageName %>',[])
+    .controller('<%= controllerName %>', ['$scope',
+		$scope => <%= controllerName %>($scope)
     ])
-    .directive("ngTitle", <%= directiveName %>);
+    .directive('ngContent', <%= directiveName %>)
+    .directive('ngText', instruction);
