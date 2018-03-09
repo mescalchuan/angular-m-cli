@@ -7,7 +7,7 @@
 * 一键删除指定页面和相关配置
 * 一键打包
 
-####核心技术
+#### 核心技术
 * `co` 将异步JS同步化
 * `co-prompt` co的命令行实现，同步获取用户输入
 * `commander` 命令行创建与解析的工具
@@ -51,7 +51,7 @@ npm link
 
 完成依赖安装后，我们就可以使用`npm start`启动项目啦
 
-![angular-m-cli](http://upload-images.jianshu.io/upload_images/1495096-bb4e61b121dfd594.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![angular-m-cli](http://ox6gixp8f.bkt.clouddn.com/angular.jpg)
 
 访问3005端口即可进入`mock`服务的配置页面
 
