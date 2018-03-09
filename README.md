@@ -1,4 +1,4 @@
-目前市面上已经存在众多脚手架，包括：`vue-cli`、`create-react-app`、`angular-cli`等，但大多数脚手架均针对单页应用。面对多页应用，用户需要手写 `webpack.config.js`，手动创建每个页面的入口文件、`index.html`并配置到`entry`中，可以说配置比较繁琐。
+目前市面上已经存在众多脚手架，包括：`vue-cli`、`create-react-app`、`angular-cli`等，但大多数脚手架均针对单页应用。面对多页应用，用户仍然需要手动做很多事情。为了提高`angularJS`多页应用的开发速度，基于`commander`和`co-prompt`将[angular-custom-cli](https://github.com/1335382915/angular-m-cli.git)封装成脚手架工具`angular-m-cli`。
 #### 使用angular-m-cli，您可以做到
 * 快速构建项目原型
 * 自动生成新页面并完成相关配置（包括入口文件、css、`index.html`）
@@ -6,6 +6,13 @@
 * 使用`mock`进行接口测试，实现前后端分离
 * 一键删除指定页面和相关配置
 * 一键打包
+
+####核心技术
+* `co` 将异步JS同步化
+* `co-prompt` co的命令行实现，同步获取用户输入
+* `commander` 命令行创建与解析的工具
+* `download-git-repo` github源码下载
+* `ejs` 模板渲染
 
 ### 如何使用
  #### 一、起步
@@ -44,7 +51,7 @@ npm link
 
 完成依赖安装后，我们就可以使用`npm start`启动项目啦
 
-![angular-m-cli](http://ox6gixp8f.bkt.clouddn.com/ng-cli.png)
+![angular-m-cli](http://upload-images.jianshu.io/upload_images/1495096-bb4e61b121dfd594.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 访问3005端口即可进入`mock`服务的配置页面
 
@@ -52,35 +59,35 @@ npm link
 
 下面我们来看一下目录结构
 
-![](http://upload-images.jianshu.io/upload_images/1495096-4142b17ce01198e0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](http://upload-images.jianshu.io/upload_images/1495096-bba4d3f6a978f495.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 * `common`存放通用的js代码块
-* `css`存放每个页面的样式文件，默认只有`home.scss`
+* `css`存放每个页面的样式文件，默认只有`home.scss`和全局样式`basic.scss`
 
 * `doc`存放mock文档
 * `entry`存放每个页面的入口js文件，例如：home页的入口文件为`entry/home/main.js`
 ```
 import angular from 'angular';
-import {homeInstruction} from '../../common/app';
+import { instruction } from '../../common/app';
 import '../../css/home.scss';
 
 const homeCtrl = $scope => {
-    $scope.pageInfo = "Hello Angular";
-    console.log(homeInstruction);
+	$scope.pageInfo = 'Hello Angular';
 }
 const helloNG = () => ({
-    restrict:'EACM',
-    template:`<p class="home-title" >{{pageInfo}}</p>`
-})
+	restrict:'EACM',
+	template:`<p class="home-title">{{pageInfo}}</p>`
+});
 
 angular.module('home', [])
-    .controller('homeCtrl',['$scope', 
-        $scope => homeCtrl($scope)
-    ])
-    .directive('helloNg', helloNG)
-    .directive('ngText', homeInstruction);
+	.controller('homeCtrl',['$scope', 
+		$scope => homeCtrl($scope)
+	])
+	.directive('helloNg', helloNG)
+	.directive('ngText', instruction);
 ```
-使用es6去书写ng代码，能够大幅提高代码可读性和组织性
+*使用es6去书写ng代码，能够大幅提高代码可读性和组织性
 * `image`存放项目图片
 * `mock2easy`
 *   `node_modules`
@@ -89,53 +96,57 @@ angular.module('home', [])
 <!DOCTYPE html>
 <html ng-app="home">
 <head>
-    <title>Home</title>
+	<title>Home</title>
 </head>
 <body ng-controller="homeCtrl" ng-cloak>
-    <div class="container" >
-        <img src="../../image/angular.jpg" />
-    </div>
-    <hello-ng></hello-ng>
-    <ng-text></ng-text>
-    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
-    <script type="text/javascript" src="/vendor.__bundle.js"></script>
-    <script type="text/javascript" src="/home/main.__bundle.js"></script>
+	<div class="container" >
+		<img src="../../image/angular.jpg"/>
+	</div>
+	<hello-ng></hello-ng>
+	<ng-text></ng-text>
+	<script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+	<script type="text/javascript" src="/vendor.__bundle.js"></script>
+	<script type="text/javascript" src="/home/main.__bundle.js"></script>
 </body>
 </html>
 ```
 最下面的两个 `script`标签引入的是虚拟内存中的文件，在生产环境中我们需要将这两个标签去除。
 * `package.json`
+* `postcss.config.js`配置postcss，实现css前缀自动补齐
 * `webpack.config.js`
 ##### 2. 添加新页面
 在命令行中输入`npm add user`，我们再一次启动项目，将url中的`home`改为`user`
 
 ![](http://upload-images.jianshu.io/upload_images/1495096-491d9bfd3203d6f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-![](http://upload-images.jianshu.io/upload_images/1495096-0162f9cab02c9a7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](http://upload-images.jianshu.io/upload_images/1495096-ffb8cdc36c6c96ad.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 看似简单的操作，但实质上user的相关文件和配置已经自动生成
 ```
 ├── css
+│   ├── basic.scss
 │   ├── home.scss
 │   └── user.scss
 ├── entry
 │   ├── home
-│   │   ├── main.js
+│   │   └── main.js
 │   └── user
-│       ├── main.js
+│       └── main.js
 ├── pages
 │   ├── home
-│   │   ├── index.html
+│   │   └── index.html
 │   └── user
-│       ├── index.html
+│       └── index.html
 └── common
 ```
 
 ##### 3. 开发环境
 目前，我们已经可以创建新的项目，添加新的页面并成功将项目运行在本地，也就是开发环境。你需要知道开发环境下angular-m-cli可以做哪些事情：
-* 使用es6书写ng
-* 编写sass
-* 模块导入sass、css
+* 使用`es6`书写`angularJS`
+* 基于`sass`编写样式文件
+* css前缀自动补齐
+* 模块导入样式文件
 * 自动打开首页（home）
 * 热更新css文件和js文件
 * 错误映射
@@ -153,7 +164,8 @@ angular.module('home', [])
 │   │   ├── index.html 
 │   │   ├── main.bundle.js //打包后的user所需js
 │   │   └── main.bundle.css //打包后的user所需css
-│   └── vender.bundle.js //打包后的通用js
+│   ├── vendor.bundle.css //打包后的通用css
+│   └── vendor.bundle.js //打包后的通用js
 ```
 
 下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，你只需要将每个页面的
@@ -168,6 +180,7 @@ angular.module('home', [])
 现在，你可以将`build`、`image`这两个文件夹存放至服务器了（如果你没有其他外部引入的资源）。
 
 ![](http://upload-images.jianshu.io/upload_images/1495096-3d572613e6e6c3b5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 ##### 5. 其他指令
 * 列举页面：`ng list`
@@ -208,5 +221,32 @@ var customConfig = {
 
 在生产环境中，你需要访问的是`build`文件夹。而在开发环境中，你需要访问的是`pages`和`entry`文件夹，二者不互相干扰。
 
+##### 7. 单独提取通用css文件
+我们可以使用`extract-text-webpack-plugin`将所有模块导入的css单独提取成一个css文件，然而这会导致生成的css文件有可能存在彼此重复的部分：
+```
+//home/main.js
+import '../../css/basic.scss';
+import '../../css/home.scss';
+//user/main.js
+import '../../css/basic.scss';
+import '../../css/user.scss';
+
+//打包后
+//home/main.bundle.css和home/main.bundle.css均含有basic.scss的内容，重复！
+```
+如何在这基础上将通用的样式单独提取是一个难题，我目前的解决方案是将`basic.scss`作为公共模块的一部分：
+```
+//common/app.js
+//将basic.scss作为公共模块，
+import '../css/basic.scss';
+...js逻辑
+```
+由于`app.js`被配置成了公共模块，`CommonsChunkPlugin`会将其单独打包，引入的css也会被`extract-text-webpack-plugin`抽取成单独的`vendor.bundle.css`。
+
+如果你有更好的解决方案，欢迎提供`issue`。
+
+### 结尾 
 访问[github](https://github.com/1335382915/angular-m-cli)查看源码
+
 参考：[vue-cli](https://github.com/vuejs/vue-cli)、[教你从零开始搭建一款前端脚手架工具](https://segmentfault.com/a/1190000006190814)
+
