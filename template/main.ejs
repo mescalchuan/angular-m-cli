@@ -9,17 +9,17 @@ const <%= directiveName %> = () => ({
     restrict: 'EACM',
     transclude: true,
 	template: `
-		<div class="content">
-			<p class="page-title">{{pageInfo}}</p>
-			<a class="back-content" href="../home/index.html">Go Back</a>
-			<div ng-transclude></div>
-		</div>
+            <div class="content">
+                <p class="page-title">{{pageInfo}}</p>
+                <a class="back-content" href="../home/index.html">Go Back</a>
+                <div ng-transclude></div>
+            </div>
 	`
 });
 
 angular.module('<%= pageName %>',[])
     .controller('<%= controllerName %>', ['$scope',
-		$scope => <%= controllerName %>($scope)
+        $scope => <%= controllerName %>($scope)
     ])
     .directive('ngContent', <%= directiveName %>)
     .directive('ngText', instruction);
