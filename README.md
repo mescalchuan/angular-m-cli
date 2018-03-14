@@ -189,7 +189,7 @@ angular.module('home', [])
 ##### 6. 自定义配置（webpack.config.js）
 1. 指定通用模块
 
-通用模块在开发环境下会生成到虚拟内存中：`/vender.__bundle.js`，在生产环境下会生成到`entry/vender.bundle.js`中。
+通用模块在开发环境下会生成到虚拟内存中：`/vender.__bundle.js`，在生产环境下会生成到`build/vender.bundle.js`中。
 
 ```
 //默认的通用模块
