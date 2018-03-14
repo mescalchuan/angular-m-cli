@@ -1,5 +1,5 @@
 目前市面上已经存在众多脚手架，包括：`vue-cli`、`create-react-app`、`angular-cli`等，但大多数脚手架均针对单页应用。面对多页应用，用户仍然需要手动做很多事情。为了提高`angularJS`多页应用的开发速度，基于`commander`和`co-prompt`将[angular-custom-cli](https://github.com/1335382915/angular-custom-cli.git)封装成脚手架工具`angular-m-cli`。
-#### 使用angular-m-cli，您可以做到
+#### 使用angular-m-cli，你可以做到
 * 快速构建项目原型
 * 自动生成新页面并完成相关配置（包括入口文件、css、`index.html`）
 * 利用本地服务器完成开发
@@ -8,7 +8,7 @@
 * 一键打包
 
 #### 核心技术
-* `co` 将异步JS同步化
+* `co` 自动执行`Generator`
 * `co-prompt` co的命令行实现，同步获取用户输入
 * `commander` 命令行创建与解析的工具
 * `download-git-repo` github源码下载
