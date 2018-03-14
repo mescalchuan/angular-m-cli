@@ -227,6 +227,7 @@ var customConfig = {
 //home/main.js
 import '../../css/basic.scss';
 import '../../css/home.scss';
+
 //user/main.js
 import '../../css/basic.scss';
 import '../../css/user.scss';
@@ -246,7 +247,5 @@ import '../css/basic.scss';
 如果你有更好的解决方案，欢迎提供`issue`。
 
 ### 结尾 
-访问[github](https://github.com/1335382915/angular-m-cli)查看源码
-
 参考：[vue-cli](https://github.com/vuejs/vue-cli)、[教你从零开始搭建一款前端脚手架工具](https://segmentfault.com/a/1190000006190814)
 
