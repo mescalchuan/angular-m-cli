@@ -59,7 +59,7 @@ npm link
 
 下面我们来看一下目录结构
 
-![](https://upload-images.jianshu.io/upload_images/1495096-c81c0fda847c73eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](http://upload-images.jianshu.io/upload_images/1495096-c81c0fda847c73eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 * `common`存放通用的js代码块
