@@ -1,5 +1,5 @@
 目前市面上已经存在众多脚手架，包括：`vue-cli`、`create-react-app`、`angular-cli`等，但大多数脚手架均针对单页应用。面对多页应用，用户仍然需要手动做很多事情。为了提高`angularJS`多页应用的开发速度，基于`commander`和`co-prompt`将[angular-custom-cli](https://github.com/1335382915/angular-custom-cli.git)封装成脚手架工具`angular-m-cli`。
-#### 使用angular-m-cli，你可以做到
+#### 使用angular-m-cli，您可以做到
 * 快速构建项目原型
 * 自动生成新页面并完成相关配置（包括入口文件、css、`index.html`）
 * 利用本地服务器完成开发
@@ -16,6 +16,8 @@
 
 ### 如何使用
  #### 一、起步
+*由于工程使用到了`sass`，请确保您的电脑已经安装了`python`
+
 你需要将该项目克隆到本地，安装相关依赖
 ```
 git clone https://github.com/1335382915/angular-m-cli.git
@@ -49,7 +51,7 @@ npm link
 
 进入到`NGApp`文件夹下，安装依赖`cd NGApp && npm i`
 
-完成依赖安装后，我们就可以使用`npm start`启动项目啦
+完成依赖安装后，我们需要先在命令行输入`npm run dll`生成`dll`文件（每个项目只需运行一次即可）。使用它的目的在于能够加快`webpack`的打包速度。之后，我们就可以使用`npm start`启动项目啦
 
 ![angular-m-cli](http://ox6gixp8f.bkt.clouddn.com/%E5%86%85%E7%BD%91%E9%80%9A%E6%88%AA%E5%9B%BE20180315183137.png)
 
@@ -59,7 +61,8 @@ npm link
 
 下面我们来看一下目录结构
 
-![](http://upload-images.jianshu.io/upload_images/1495096-c81c0fda847c73eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](https://upload-images.jianshu.io/upload_images/1495096-c81c0fda847c73eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 
 * `common`存放通用的js代码块
@@ -73,19 +76,19 @@ import { instruction } from '../../common/app';
 import '../../css/home.scss';
 
 const homeCtrl = $scope => {
-    $scope.pageInfo = 'Hello Angular';
+	$scope.pageInfo = 'Hello Angular';
 }
 const helloNG = () => ({
-    restrict:'EACM',
-    template:`<p class="home-title">{{pageInfo}}</p>`
+	restrict:'EACM',
+	template:`<p class="home-title">{{pageInfo}}</p>`
 });
 
 angular.module('home', [])
-    .controller('homeCtrl',['$scope', 
-        $scope => homeCtrl($scope)
-    ])
-    .directive('helloNg', helloNG)
-    .directive('ngText', instruction);
+	.controller('homeCtrl',['$scope', 
+		$scope => homeCtrl($scope)
+	])
+	.directive('helloNg', helloNG)
+	.directive('ngText', instruction);
 ```
 *使用es6去书写ng代码，能够大幅提高代码可读性和组织性
 * `image`存放项目图片
@@ -96,23 +99,27 @@ angular.module('home', [])
 <!DOCTYPE html>
 <html ng-app="home">
 <head>
-    <title>Home</title>
+	<title>Home</title>
 </head>
 <body ng-controller="homeCtrl" ng-cloak>
-    <div class="container" >
-        <img src="../../image/angular.jpg"/>
-    </div>
-    <hello-ng></hello-ng>
-    <ng-text></ng-text>
-    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
-    <script type="text/javascript" src="/vendor.__bundle.js"></script>
-    <script type="text/javascript" src="/home/main.__bundle.js"></script>
+	<div class="container" >
+		<img src="../../image/angular.jpg"/>
+	</div>
+	<hello-ng></hello-ng>
+	<ng-text></ng-text>
+	<script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <script type="text/javascript" src="/entry/angular.dll.js"></script>
+	<script type="text/javascript" src="/vendor.__bundle.js"></script>
+	<script type="text/javascript" src="/home/main.__bundle.js"></script>
 </body>
 </html>
 ```
-最下面的两个 `script`标签引入的是虚拟内存中的文件，在生产环境中我们需要将这两个标签去除。
+`angular.dll.js`就是之前`npm run dll`后生成的文件，`angular`的代码均被打包至此，并且作为静态文件存储。
+最下面的两个 `script`标签引入的是虚拟内存中的文件。
+以上三个标签均只在开发环境中使用。
 * `package.json`
 * `postcss.config.js`配置postcss，实现css前缀自动补齐
+* `webpack_dll.config.js`配置`dll`，加快打包速度
 * `webpack.config.js`
 ##### 2. 添加新页面
 在命令行中输入`npm add user`，我们再一次启动项目，将url中的`home`改为`user`
@@ -152,24 +159,29 @@ angular.module('home', [])
 * 错误映射
 * 使用mock服务测试接口
 
+你可能注意到，通过`npm start`运行项目后，项目目录中并没有生成`vendor.__bundle.js`和`pageName/main__bundle.js`文件，然而控制台并没有报404错误并且项目能够成功运行。这是因为在开发环境下这些文件被存储在了内存中，并且内存的根路径为`entry`。
+
+如果你运行`npm run dev`，你将会看到这些打包后的文件，此时你可以双击`index.html`来直接运行本地文件（在这之前，你需要将`index.html`的`script`标签的引入路径修改为正确的路径，因为此时已经没有本地服务器了，也没有内存文件了）。在一般情况下，`npm start`已经足够满足我们在开发环境下的需求，`npm run dev`一般不会用到。
+
 ##### 4. 生产环境
 在命令行中输入`npm run build`，构建成功后我们可以看到目录中新产生了一个`build`文件夹：
 ```
 ├── build
 │   ├── home
 │   │   ├── index.html
-│   │   ├── main.bundle.js //打包后的home所需js
-│   │   └── main.bundle.css //打包后的home所需css
+│   │   ├── main_be2d1a1f.bundle.js //打包后的home所需js
+│   │   └── main_be2d1a1f.bundle.css //打包后的home所需css
 │   ├── user
 │   │   ├── index.html 
-│   │   ├── main.bundle.js //打包后的user所需js
-│   │   └── main.bundle.css //打包后的user所需css
-│   ├── vendor.bundle.css //打包后的通用css
-│   └── vendor.bundle.js //打包后的通用js
+│   │   ├── main_da36e4e0.bundle.js //打包后的user所需js
+│   │   └── main_da36e4e0.bundle.css //打包后的user所需css
+│   ├── vendor_79ea9f41.bundle.css //打包后的通用css
+│   └── vendor_79ea9f41.bundle.js //打包后的通用js
 ```
 
-下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，你只需要将每个页面的
+下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，你只需要将`build`文件夹中的每个页面的
 ```
+<script type="text/javascript" src="/entry/angular.dll.js"></script>
 <script type="text/javascript" src="/vendor.__bundle.js"></script>
 <script type="text/javascript" src="/pageName/main.__bundle.js">
 ```
@@ -189,7 +201,7 @@ angular.module('home', [])
 ##### 6. 自定义配置（webpack.config.js）
 1. 指定通用模块
 
-通用模块在开发环境下会生成到虚拟内存中：`/vender.__bundle.js`，在生产环境下会生成到`build/vender.bundle.js`中。
+通用模块在开发环境下会生成到虚拟内存中：`/vendor.__bundle.js`，在生产环境下会生成到`build/vendor_[8位hash].bundle.js`中。
 
 ```
 //默认的通用模块
@@ -201,7 +213,7 @@ var entry = {
     vendor: [commonModule1, commonModule2]
 };
 ```
-通过以上配置，`common/app.js`和`common/myModule.js`均会被打包至vender中。
+通过以上配置，`common/app.js`和`common/myModule.js`均会被打包至vendor中。
 
 2. 开发环境下修改自动打开的页面
 ```
@@ -227,13 +239,12 @@ var customConfig = {
 //home/main.js
 import '../../css/basic.scss';
 import '../../css/home.scss';
-
 //user/main.js
 import '../../css/basic.scss';
 import '../../css/user.scss';
 
 //打包后
-//home/main.bundle.css和home/main.bundle.css均含有basic.scss的内容，重复！
+//home/main_[8位hash].bundle.css和home/main_[8位hash].bundle.css均含有basic.scss的内容，重复！
 ```
 如何在这基础上将通用的样式单独提取是一个难题，我目前的解决方案是将`basic.scss`作为公共模块的一部分：
 ```
@@ -242,10 +253,12 @@ import '../../css/user.scss';
 import '../css/basic.scss';
 ...js逻辑
 ```
-由于`app.js`被配置成了公共模块，`CommonsChunkPlugin`会将其单独打包，引入的css也会被`extract-text-webpack-plugin`抽取成单独的`vendor.bundle.css`。
+由于`app.js`被配置成了公共模块，`CommonsChunkPlugin`会将其单独打包，引入的css也会被`extract-text-webpack-plugin`抽取成单独的`vendor_[8位hash].bundle.css`。
 
 如果你有更好的解决方案，欢迎提供`issue`。
 
 ### 结尾 
+访问[github](https://github.com/1335382915/angular-m-cli)查看源码
+
 参考：[vue-cli](https://github.com/vuejs/vue-cli)、[教你从零开始搭建一款前端脚手架工具](https://segmentfault.com/a/1190000006190814)
 
