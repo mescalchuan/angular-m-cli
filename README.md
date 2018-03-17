@@ -76,19 +76,19 @@ import { instruction } from '../../common/app';
 import '../../css/home.scss';
 
 const homeCtrl = $scope => {
-	$scope.pageInfo = 'Hello Angular';
+    $scope.pageInfo = 'Hello Angular';
 }
 const helloNG = () => ({
-	restrict:'EACM',
-	template:`<p class="home-title">{{pageInfo}}</p>`
+    restrict:'EACM',
+    template:`<p class="home-title">{{pageInfo}}</p>`
 });
 
 angular.module('home', [])
-	.controller('homeCtrl',['$scope', 
-		$scope => homeCtrl($scope)
-	])
-	.directive('helloNg', helloNG)
-	.directive('ngText', instruction);
+    .controller('homeCtrl',['$scope', 
+        $scope => homeCtrl($scope)
+    ])
+    .directive('helloNg', helloNG)
+    .directive('ngText', instruction);
 ```
 *使用es6去书写ng代码，能够大幅提高代码可读性和组织性
 * `image`存放项目图片
@@ -99,18 +99,18 @@ angular.module('home', [])
 <!DOCTYPE html>
 <html ng-app="home">
 <head>
-	<title>Home</title>
+    <title>Home</title>
 </head>
 <body ng-controller="homeCtrl" ng-cloak>
-	<div class="container" >
-		<img src="../../image/angular.jpg"/>
-	</div>
-	<hello-ng></hello-ng>
-	<ng-text></ng-text>
-	<script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <div class="container" >
+        <img src="../../image/angular.jpg"/>
+    </div>
+    <hello-ng></hello-ng>
+    <ng-text></ng-text>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
     <script type="text/javascript" src="/entry/angular.dll.js"></script>
-	<script type="text/javascript" src="/vendor.__bundle.js"></script>
-	<script type="text/javascript" src="/home/main.__bundle.js"></script>
+    <script type="text/javascript" src="/vendor.__bundle.js"></script>
+    <script type="text/javascript" src="/home/main.__bundle.js"></script>
 </body>
 </html>
 ```
