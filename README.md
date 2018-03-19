@@ -175,7 +175,8 @@ angular.module('home', [])
 │   │   ├── index.html 
 │   │   ├── main_da36e4e0.bundle.js //打包后的user所需js
 │   │   └── main_da36e4e0.bundle.css //打包后的user所需css
-│   ├── vendor_79ea9f41.bundle.css //打包后的通用css
+│   ├── 0_79ea9f41.bundle.js //按需加载的模块（如果你使用了按需加载的话）
+│   ├── vendor_79ea9f41.bundle.css //打包后的通用css
 │   └── vendor_79ea9f41.bundle.js //打包后的通用js
 ```
 
@@ -233,7 +234,21 @@ var customConfig = {
 
 在生产环境中，你需要访问的是`build`文件夹。而在开发环境中，你需要访问的是`pages`和`entry`文件夹，二者不互相干扰。
 
-##### 7. 单独提取通用css文件
+##### 8. 按需加载
+angular-m-cli为你提供了按需加载功能，你只需要在相应的页面动态引入模块即可。
+```
+//home.js
+//按需加载
+$scope.getAsyncModule = function() {
+    import('../../common/async.js').then(data => console.log(data))
+ }
+```
+按需加载的模块在开发环境下会打包到`entry\[module_id]_bundle.js`，在生产环境下会打包到`build/[module_id]_[8位hash].js`。
+
+##### 9. 图片
+较小的图片会直接转为dataURl嵌入到模块当中以减少网络请求。由于html并不属于模块，因此，较大的图片直接生成到了`image`文件夹下，名字与原来一致（开发环境下会生成到`entry`中）。
+
+##### 10. 单独提取通用css文件
 我们可以使用`extract-text-webpack-plugin`将所有模块导入的css单独提取成一个css文件，然而这会导致生成的css文件有可能存在彼此重复的部分：
 ```
 //home/main.js
