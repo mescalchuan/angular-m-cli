@@ -122,7 +122,7 @@ angular.module('home', [])
 * `webpack_dll.config.js`配置`dll`，加快打包速度
 * `webpack.config.js`
 ##### 2. 添加新页面
-在命令行中输入`npm add user`，我们再一次启动项目，将url中的`home`改为`user`
+在命令行中输入`ng add user`，我们再一次启动项目，将url中的`home`改为`user`
 
 ![](http://upload-images.jianshu.io/upload_images/1495096-491d9bfd3203d6f3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
