@@ -180,13 +180,13 @@ angular.module('home', [])
 │   └── vendor_79ea9f41.bundle.js //打包后的通用js
 ```
 
-下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，~~你只需要将`build`文件夹中的每个页面的
+下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，~~你只需要将`build`文件夹中的每个页面的~~
 ```
 <script type="text/javascript" src="/entry/angular.dll.js"></script>
 <script type="text/javascript" src="/vendor.__bundle.js"></script>
 <script type="text/javascript" src="/pageName/main.__bundle.js">
 ```
-删除即可。~~
+~~删除即可。~~
 
 ~~`pageName`为你的页面名~~
 
