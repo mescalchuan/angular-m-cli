@@ -186,7 +186,7 @@ angular.module('home', [])
 <script type="text/javascript" src="/vendor.__bundle.js"></script>
 <script type="text/javascript" src="/pageName/main.__bundle.js">
 ```
-删除即可。
+删除即可。~~
 
 ~~`pageName`为你的页面名~~
 
