@@ -180,7 +180,7 @@ angular.module('home', [])
 │   └── vendor_79ea9f41.bundle.js //打包后的通用js
 ```
 
-下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，你只需要将`build`文件夹中的每个页面的
+下一步，你并不需要手动将打包后的文件引入到`index.html`中，因为这个工作已经由angular-m-cli自动帮你完成，~~你只需要将`build`文件夹中的每个页面的
 ```
 <script type="text/javascript" src="/entry/angular.dll.js"></script>
 <script type="text/javascript" src="/vendor.__bundle.js"></script>
@@ -188,7 +188,9 @@ angular.module('home', [])
 ```
 删除即可。
 
-`pageName`为你的页面名
+~~`pageName`为你的页面名~~
+
+更新说明：针对上述手动删除代码的问题编写了[del-dev-assets](https://github.com/1335382915/del-dev-assets)插件，实现了自动删除功能并集成到了该脚手架中，无需手动操作。
 
 现在，你可以将`build`、`image`这两个文件夹存放至服务器了（如果你没有其他外部引入的资源）。
 
