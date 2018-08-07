@@ -16,9 +16,10 @@
 
 ### 如何使用
  #### 一、起步
+ 
 *由于工程使用到了`sass`，请确保您的电脑已经安装了`python`
 
-你需要将该项目克隆到本地，安装相关依赖
+方法一：你需要将该项目克隆到本地，安装相关依赖
 ```
 git clone https://github.com/1335382915/angular-m-cli.git
 //进入到angular-m-cli目录下
@@ -29,6 +30,8 @@ npm i
 ```
 npm link
 ```
+
+方法二：`npm i angular-m-cli -g`
 
 现在，我们随便进入一个文件夹，输入`ng`命令，看看是否可以全局使用了
 
