@@ -100,6 +100,8 @@ angular.module('home', [])
 <html ng-app="home">
 <head>
     <title>Home</title>
+    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <script type="text/javascript" src="/entry/angular.dll.js"></script>
 </head>
 <body ng-controller="homeCtrl" ng-cloak>
     <div class="container" >
@@ -107,8 +109,6 @@ angular.module('home', [])
     </div>
     <hello-ng></hello-ng>
     <ng-text></ng-text>
-    <script type="text/javascript" src="https://cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
-    <script type="text/javascript" src="/entry/angular.dll.js"></script>
     <script type="text/javascript" src="/vendor.__bundle.js"></script>
     <script type="text/javascript" src="/home/main.__bundle.js"></script>
 </body>
