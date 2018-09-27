@@ -53,6 +53,7 @@ module.exports = (pageName) => {
 	catch(err) {
 	    spinner.stop();
 	    console.log(chalk.red('\n Can not create new page.'));
+	    console.log(err);
 	    process.exit();
 	}
 	spinner.stop();
