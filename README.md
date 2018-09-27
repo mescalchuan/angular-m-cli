@@ -48,7 +48,7 @@ npm link
 注：所有的命令均必须在项目的根目录中输入，在本例子中是`NGApp`
 ##### 1. 创建工程
 
-在命令行中输入`npm init NGApp`，等待片刻
+在命令行中输入`ng init NGApp`，等待片刻
 
 ![](http://upload-images.jianshu.io/upload_images/1495096-04c154cffc6bd046.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
