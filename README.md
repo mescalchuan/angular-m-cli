@@ -56,7 +56,7 @@ npm link
 
 完成依赖安装后，我们需要先在命令行输入`npm run dll`生成`dll`文件（每个项目只需运行一次即可）。使用它的目的在于能够加快`webpack`的打包速度。之后，我们就可以使用`npm start`启动项目啦
 
-![angular-m-cli](http://ox6gixp8f.bkt.clouddn.com/%E5%86%85%E7%BD%91%E9%80%9A%E6%88%AA%E5%9B%BE20180315183137.png)
+![angular-m-cli](http://upload-images.jianshu.io/upload_images/1495096-517c77cb15a48c40?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 访问3005端口即可进入`mock`服务的配置页面
 
