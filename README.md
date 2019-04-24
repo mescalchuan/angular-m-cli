@@ -2,7 +2,7 @@
 
 ### 一款基于`webpack`的快速构建`angular1`的多页应用构建方案
 
-### [文档地址](https://1335382915.github.io/angular-m-cli)
+### [文档地址](https://mescalchuan.github.io/angular-m-cli)
 
 #### 使用angular-m-cli，您可以做到
 * 快速构建项目原型
